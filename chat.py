@@ -40,28 +40,31 @@ def preprocess_question(question):
 st.title("병원 상담 챗봇")
 st.write("ETRI WiseQAnal API를 사용한 병원 관련 질문 분석")
 
-# 사용자 입력
-user_question = st.text_input("질문을 입력하세요:")
+# 화면 레이아웃 설정
+col1, col2, col3 = st.columns([1, 2, 1])
 
-if st.button("전송"):
-    user_question = preprocess_question(user_question)
-    
-    if user_question:
-        st.write(f"사용자: {user_question}")
+# 왼쪽 열에 챗봇 UI 배치
+with col1:
+    user_question = st.text_input("질문을 입력하세요:")
+
+    if st.button("전송"):
+        user_question = preprocess_question(user_question)
         
-        # 키워드 기반 매칭
-        if "진료" in user_question and "시간" in user_question:
-            st.write("챗봇: 병원의 진료 시간은 오전 9시부터 오후 6시까지입니다.")
-        elif "응급실" in user_question and "위치" in user_question:
-            st.write("챗봇: 응급실은 본관 1층에 위치하고 있습니다.")
-        elif "진료" in user_question:
-            st.write("챗봇: 병원의 진료는 예약제로 운영됩니다. 자세한 정보는 병원 홈페이지를 참고해 주세요.")
-        elif "시간" in user_question:
-            st.write("챗봇: 병원의 운영 시간은 오전 9시부터 오후 6시까지입니다.")
-        elif "위치" in user_question:
-            st.write("챗봇: 병원은 서울시 강남구에 위치해 있습니다.")
-        else:
-            result = get_response(user_question)
-            answer = result.get('return_object', {}).get('answer', '관련 정보를 찾을 수 없습니다.')
-            st.write(f"챗봇: {answer}")
-          
+        if user_question:
+            st.write(f"사용자: {user_question}")
+            
+            # 키워드 기반 매칭
+            if "진료" in user_question and "시간" in user_question:
+                st.write("챗봇: 병원의 진료 시간은 오전 9시부터 오후 6시까지입니다.")
+            elif "응급실" in user_question and "위치" in user_question:
+                st.write("챗봇: 응급실은 본관 1층에 위치하고 있습니다.")
+            elif "진료" in user_question:
+                st.write("챗봇: 병원의 진료는 예약제로 운영됩니다. 자세한 정보는 병원 홈페이지를 참고해 주세요.")
+            elif "시간" in user_question:
+                st.write("챗봇: 병원의 운영 시간은 오전 9시부터 오후 6시까지입니다.")
+            elif "위치" in user_question:
+                st.write("챗봇: 병원은 서울시 강남구에 위치해 있습니다.")
+            else:
+                result = get_response(user_question)
+                answer = result.get('return_object', {}).get('answer', '관련 정보를 찾을 수 없습니다.')
+                st.write(f"챗봇: {answer}")
